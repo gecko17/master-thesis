@@ -1,0 +1,41 @@
+{
+    "sqltools.connections": [
+        {
+            "connectionTimeout": 30,
+            "hanaOptions": {
+                "encrypt": true,
+                "sslValidateCertificate": false,
+                "sslCryptoProvider": "openssl",
+                "proxy_host": "localhost",
+                "proxy_port": 49153
+            },
+            "previewLimit": 50,
+            "driver": "SAPHana",
+            "name": "PDH",
+            "group": "[KAESER]",
+            "server": "hana.live.bigdata.kaeser.com",
+            "port": 30015,
+            "database": "KAESER_IOT_KPI",
+            "username": "DH_TECHNICAL_PRODUCTION",
+            "password": "a8Kr7t*L_*<\\Vf%Gg>jV"
+        },
+        {
+            "connectionTimeout": 30,
+            "hanaOptions": {
+                "encrypt": true,
+                "sslValidateCertificate": false,
+                "sslCryptoProvider": "openssl"
+            },
+            "previewLimit": 50,
+            "driver": "SAPHana",
+            "name": "News Center DB",
+            "group": "Technology Incubation Internal",
+            "server": "localhost",
+            "port": 30015,
+            "database": "5201A28B48964165B555DC93998DE3FE",
+            "username": "SBSS_44694324617517376631947390392503869680120894290364479070749633400",
+            "password": "Cp4jfTcwFD7sasRxs.gQ4kMa8uR-iS93H80sOuzHxtT6_rW8T3eV1pZInokzRPZ_R67Xcg2tprY4o9xgmgIitrcnFQGENKAgyibO2o9SrrZZMkQ.yfUVQtjo_UHj4A-9"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}
