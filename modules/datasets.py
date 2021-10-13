@@ -91,7 +91,6 @@ class SentenceClusterDataset(torch.utils.data.Dataset):
                     s.split(' ')) > 4 and len(
                     s.split(' ')) < 32])
 
-        print(f'Number of sentences: {num_sentences_overall}')
         df_clusters = pd.DataFrame()
         self.sbert = SentenceTransformer(
             'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')

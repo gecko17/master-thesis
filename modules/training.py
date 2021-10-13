@@ -7,7 +7,7 @@ from tqdm import tqdm
 from rouge import Rouge
 from datetime import datetime, timezone
 
-from .datasets import Seq2SeqDataset, SentenceClusterDataset
+from .datasets import ReconstructionDataset, SentenceClusterDataset
 
 
 class Seq2SeqTrainer():
@@ -135,7 +135,7 @@ class Seq2SeqTrainer():
 
         return val_loss / len(dl), scores
 
-    def train(self, data: Seq2SeqDataset, val_size: int = 0.1,
+    def train(self, data: ReconstructionDataset, val_size: int = 0.1,
               eval: bool = False, generation_size: int = 4):
         start_time = time.time()
 
@@ -213,7 +213,7 @@ class Seq2SeqTrainer():
 
 class SummaryTrainer():
     def __init__(self, model, optimizer, loss_functions: dict, epochs: int = 3,
-                 checkpoint_path: str = None, tensorboard_path: str = None, tokenizer=None, fp16: bool = False):
+                 checkpoint_path: str = None, tensorboard_path: str = None, tensorboard_name:str = None, tokenizer=None, fp16: bool = False):
         self.model = model
         self.optimizer = optimizer
         self.loss_functions = loss_functions
@@ -245,8 +245,11 @@ class SummaryTrainer():
                 raise ValueError("Wrong loss functions provided")
 
         if tensorboard_path:
-            log_dir = tensorboard_path + '/' + \
-                datetime.utcnow().replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+            if tensorboard_name:
+                log_dir = tensorboard_path + '/' + tensorboard_name
+            else:
+                log_dir = tensorboard_path + '/' + \
+                    datetime.utcnow().replace(tzinfo=timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
             self.writer = SummaryWriter(log_dir=log_dir)
         else:
             self.writer = SummaryWriter()

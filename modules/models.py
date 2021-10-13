@@ -326,10 +326,10 @@ class Decoder(torch.nn.Module):
         return raw_scores, hn, cn
 
 
-class EncoderDecoder(torch.nn.Module):
+class SummaryModel(torch.nn.Module):
     def __init__(self, encoder_config: ModelConfig,
                  decoder_config: ModelConfig, bert_models: tuple = None):
-        super(EncoderDecoder, self).__init__()
+        super(SummaryModel, self).__init__()
 
         if bert_models is None:
             self.bert_model = BertModel.from_pretrained(
@@ -337,10 +337,6 @@ class EncoderDecoder(torch.nn.Module):
         else:
             self.bert_model_enc = bert_models[0]
             self.bert_model_dec = bert_models[1]
-        # self.embedding_layer = self.bert_model.get_input_embeddings() # returns a torch.nn.Embedding Module
-        # self.embedding_dropout =
-        # self.bert_model.get_submodule('embeddings').get_submodule('dropout')
-        # # returns a torch.nn.Dropout Module
 
         self.encoder = Encoder(
             config=encoder_config,
@@ -348,15 +344,6 @@ class EncoderDecoder(torch.nn.Module):
         self.decoder = Decoder(
             config=decoder_config,
             bert_model=self.bert_model)
-
-        # if embed_mode == 'emb':
-        #  self.encoder = Encoder(config=encoder_config, bert_model=self.bert_model)
-        #self.encoder = Encoder(hidden_dim=1024, num_layers=1, embed_layer=self.embedding_layer, embed_mode=embed_mode, embed_trainable=embed_trainable, seq_enc_mode=seq_enc_mode, bidirectional=False, lstm_dropout=0)
-        #  self.decoder = Decoder(hidden_dim=1024, num_layers=1, embed_layer=self.embedding_layer, embed_mode=embed_mode, embed_trainable=embed_trainable, bidirectional=False, lstm_dropout=0, dropout_final_p=0.5, vocab_size=self.bert_model.config.vocab_size)
-        # elif embed_mode == 'bert':
-        #  self.encoder = Encoder(config=encoder_config, bert_model=self.bert_model)
-        #self.encoder = Encoder(hidden_dim=1024, num_layers=1, embed_layer=self.bert_model, embed_mode=embed_mode, embed_trainable=embed_trainable, seq_enc_mode=seq_enc_mode, lstm_dropout=0.5)
-        #  self.decoder = Decoder(hidden_dim=1024, num_layers=1, embed_layer=self.bert_model, embed_mode=embed_mode, embed_trainable=embed_trainable, dropout_final_p=0.5, lstm_dropout=0.5, vocab_size=self.bert_model.config.vocab_size)
 
         try:
             self.device = xm.xla_device()
